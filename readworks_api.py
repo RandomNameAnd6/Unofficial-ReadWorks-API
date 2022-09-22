@@ -53,6 +53,3 @@ class ReadWorks():
     def genres(self):
         genres = self.lesson_data_json['genres']
         return genres
-
-    def all_data(self):
-        return self.lesson_data_json
