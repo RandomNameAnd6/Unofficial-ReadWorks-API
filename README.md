@@ -1,7 +1,7 @@
 # Unofficial ReadWorks API
 An unofficial API for ReadWorks lessons
 ---
-Here's some example code using the API:
+Here's some example code using the API to print the title of a lesson:
 ```python
 import readworks_api
 
