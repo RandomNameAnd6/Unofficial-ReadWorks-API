@@ -49,6 +49,10 @@ class ReadWorks():
         date = self.lesson_data_json['first_published']
         return date
 
+    def authors(self):
+        authors = self.lesson_data_json['a']
+        return authors
+
     #genres sometimes works
     def genres(self):
         genres = self.lesson_data_json['genres']
