@@ -1,4 +1,4 @@
-# Unofficial ReadWorks API
+# Unofficial ReadWorks API (DOES NOT WORK RIGHT NOW)
 An unofficial API for ReadWorks lessons
 ---
 Here's some example code using the API to print the title of a lesson:
