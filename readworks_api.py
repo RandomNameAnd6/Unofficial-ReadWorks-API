@@ -1,59 +1,88 @@
 import requests
-from bs4 import BeautifulSoup
 import json
 
 class ReadWorks():
-    def __init__(self, lesson_data_link, threeorfour):
+    def __init__(self, lesson_data_link):
         self.lesson_data_link = lesson_data_link
-        self.threeorfour = threeorfour
         self.lesson_data = requests.get(lesson_data_link)
         self.lesson_data_json = json.loads(self.lesson_data.text)
-        self.lesson_data_html = BeautifulSoup(self.lesson_data.text, 'html.parser')
 
-    def all_answers(self):
-        questionSets = self.lesson_data_json['questionSets']
-        first_question_set = list(questionSets.keys())[0]
-        question_set_value = questionSets[first_question_set]
-        questions_dict = list(question_set_value.keys())[3]
-        questions_dict_value = question_set_value[questions_dict]
-        return questions_dict_value
-
-    def correct_answers(self):
-        questionSets = self.lesson_data_json['questionSets']
-        first_question_set = list(questionSets.keys())[0]
-        question_set_value = questionSets[first_question_set]
-        questions_dict = list(question_set_value.keys())[self.threeorfour]
-        questions_dict_value = question_set_value[questions_dict]
-        correct_answers = [q['answers'] for q in questions_dict_value]
-        correct_answers = [q for q in correct_answers for q in q]
-        correct_answers = [q for q in correct_answers if q["correct"] is True]
-        return correct_answers
-
-    def story_text(self):
-        content = self.lesson_data_json['content']
-        return content
-
-    def word_count(self):
-        word_count = self.lesson_data_json['wordcount']
-        return word_count
+    def activity_types(self):
+        return self.lesson_data_json['activity_types']
 
     def added_to_rw(self):
         creation_time = self.lesson_data_json['created']
         return creation_time
 
-    def title(self):
-        title = self.lesson_data_json['title']
-        return title
+    def all_answers(self):
+        questionSets = self.lesson_data_json['questionSets']
+        firstInDict = list(questionSets.keys())[0]
+        belowQuestionSets = questionSets[firstInDict]
+        correctAnswers = belowQuestionSets['questions']
+        return correctAnswers
+
+    def all_data(self):
+        return self.lesson_data_json
+
+    def author(self):
+        try:
+            author = self.lesson_data_json['a']
+            return author
+        except KeyError:
+            return None
+
+    def canonical_grade(self):
+        return self.lesson_data_json['canonical_grade']
+
+    def correct_answers(self):
+        questionSets = self.lesson_data_json['questionSets']
+        firstInDict = list(questionSets.keys())[0]
+        questionSets.pop(firstInDict)
+        first_question_set = list(questionSets.keys())[0]
+        secondInDict = questionSets[first_question_set]
+        allQuestions = secondInDict["questions"]
+        correctAnswers = []
+        for question in allQuestions:
+            if 'answers' in question:
+                for answer in question['answers']:
+                    if answer['correct'] == True:
+                        correctAnswers.append(answer)
+        return correctAnswers
 
     def created(self):
         date = self.lesson_data_json['first_published']
         return date
 
-    def authors(self):
-        authors = self.lesson_data_json['a']
-        return authors
+    def excerpt(self):
+        return self.lesson_data_json['excerpt']
 
-    #genres sometimes works
     def genres(self):
-        genres = self.lesson_data_json['genres']
-        return genres
+        try:
+            genres = self.lesson_data_json['genres']
+            return genres
+        except KeyError:
+            return None
+
+    def image(self):
+        return self.lesson_data_json['img']
+
+    def lexile(self):
+        return self.lesson_data_json['lc'][0]
+
+    def page_title(self):
+        return self.lesson_data_json['page_title']
+
+    def story_text(self):
+        content = self.lesson_data_json['content']
+        return content
+
+    def title(self):
+        title = self.lesson_data_json['title']
+        return title
+
+    def get_uuid(self):
+        return self.lesson_data_json['uuid']
+
+    def word_count(self):
+        word_count = self.lesson_data_json['wordcount']
+        return word_count
