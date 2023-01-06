@@ -34,7 +34,7 @@ class ReadWorks():
     def canonical_grade(self):
         return self.lesson_data_json['canonical_grade']
 
-    def correct_answers(self):
+    def correct_answers_one(self):
         questionSets = self.lesson_data_json['questionSets']
         firstInDict = list(questionSets.keys())[0]
         questionSets.pop(firstInDict)
@@ -43,6 +43,19 @@ class ReadWorks():
         allQuestions = secondInDict["questions"]
         correctAnswers = []
         for question in allQuestions:
+            if 'answers' in question:
+                for answer in question['answers']:
+                    if answer['correct'] == True:
+                        correctAnswers.append(answer)
+        return correctAnswers
+
+    def correct_answers_two(self):
+        questionSets = self.lesson_data_json['questionSets']
+        firstInDict = list(questionSets.keys())[0]
+        questionSets = questionSets[firstInDict]
+        questionSets = questionSets['questions']
+        correctAnswers = []
+        for question in questionSets:
             if 'answers' in question:
                 for answer in question['answers']:
                     if answer['correct'] == True:
