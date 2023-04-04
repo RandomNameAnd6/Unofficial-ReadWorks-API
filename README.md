@@ -25,3 +25,4 @@ function monitorFetchAndCopyCloudfrontUrls() {
 
 console.log(monitorFetchAndCopyCloudfrontUrls());
 ```
+What this code outputs is the data link in a list. Just simply copy it out of the list and place it into the API.
