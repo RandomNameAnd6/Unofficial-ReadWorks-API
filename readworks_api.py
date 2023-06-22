@@ -1,6 +1,7 @@
 import requests
 import json
 
+
 class ReadWorks():
     def __init__(self, lesson_data_link):
         self.lesson_data_link = lesson_data_link
@@ -18,8 +19,8 @@ class ReadWorks():
         questionSets = self.lesson_data_json['questionSets']
         firstInDict = list(questionSets.keys())[0]
         belowQuestionSets = questionSets[firstInDict]
-        correctAnswers = belowQuestionSets['questions']
-        return correctAnswers
+        answers = belowQuestionSets['questions']
+        return answers
 
     def all_data(self):
         return self.lesson_data_json
@@ -34,28 +35,14 @@ class ReadWorks():
     def canonical_grade(self):
         return self.lesson_data_json['canonical_grade']
 
-    def correct_answers_one(self):
+    def correct_answers(self):
+        qsTotals = self.lesson_data_json['qsTotals']
+        index = list(qsTotals['qt'].keys())[-1]
         questionSets = self.lesson_data_json['questionSets']
-        firstInDict = list(questionSets.keys())[0]
-        questionSets.pop(firstInDict)
-        first_question_set = list(questionSets.keys())[0]
-        secondInDict = questionSets[first_question_set]
+        secondInDict = questionSets[index]
         allQuestions = secondInDict["questions"]
         correctAnswers = []
         for question in allQuestions:
-            if 'answers' in question:
-                for answer in question['answers']:
-                    if answer['correct'] == True:
-                        correctAnswers.append(answer)
-        return correctAnswers
-
-    def correct_answers_two(self):
-        questionSets = self.lesson_data_json['questionSets']
-        firstInDict = list(questionSets.keys())[0]
-        questionSets = questionSets[firstInDict]
-        questionSets = questionSets['questions']
-        correctAnswers = []
-        for question in questionSets:
             if 'answers' in question:
                 for answer in question['answers']:
                     if answer['correct'] == True:
