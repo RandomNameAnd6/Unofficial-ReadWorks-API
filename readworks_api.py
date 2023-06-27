@@ -12,13 +12,13 @@ class ReadWorks():
         return self.lesson_data_json['activity_types']
 
     def added_to_rw(self):
-        creation_time = self.lesson_data_json['created']
-        return creation_time
+        return self.lesson_data_json['created']
 
     def all_answers(self):
+        qsTotals = self.lesson_data_json['qsTotals']
+        index = list(qsTotals['qt'].keys())[-1]
         questionSets = self.lesson_data_json['questionSets']
-        firstInDict = list(questionSets.keys())[0]
-        belowQuestionSets = questionSets[firstInDict]
+        belowQuestionSets = questionSets[index]
         answers = belowQuestionSets['questions']
         return answers
 
@@ -27,8 +27,7 @@ class ReadWorks():
 
     def author(self):
         try:
-            author = self.lesson_data_json['a']
-            return author
+            return self.lesson_data_json['a']
         except KeyError:
             return None
 
@@ -50,16 +49,14 @@ class ReadWorks():
         return correctAnswers
 
     def created(self):
-        date = self.lesson_data_json['first_published']
-        return date
+        return self.lesson_data_json['first_published']
 
     def excerpt(self):
         return self.lesson_data_json['excerpt']
 
     def genres(self):
         try:
-            genres = self.lesson_data_json['genres']
-            return genres
+            return self.lesson_data_json['genres']
         except KeyError:
             return None
 
@@ -73,16 +70,13 @@ class ReadWorks():
         return self.lesson_data_json['page_title']
 
     def story_text(self):
-        content = self.lesson_data_json['content']
-        return content
+        return self.lesson_data_json['content']
 
     def title(self):
-        title = self.lesson_data_json['title']
-        return title
+        return self.lesson_data_json['title']
 
     def get_uuid(self):
         return self.lesson_data_json['uuid']
 
     def word_count(self):
-        word_count = self.lesson_data_json['wordcount']
-        return word_count
+        return self.lesson_data_json['wordcount']
